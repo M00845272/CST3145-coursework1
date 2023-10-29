@@ -1,5 +1,5 @@
 data: {
-  sitename: "Vue.js Pet Depot",
+  sitename: "LessonCart",
   product: {	//#A
     id: 1001,     	//#B
     title: "Cat Food, 25lb bag",	//#B
@@ -8,4 +8,4 @@ data: {
     price: 2000,	//#B
     image: "assets/images/product-fullsize.png"	//#B
   }	
-},
+};

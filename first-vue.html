@@ -1,18 +1,29 @@
 <html>
   <head>
     <title>Vue.js Pet Depot</title>
-    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>	//#A
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     crossorigin="anonymous">
   </head>
   <body>
-    <div id="app"></div>	//#B
+    <div id="app">
+
+      <header>
+        <h1 v-text=
+        "LessonCart"></h1>
+        </header>
+
+    </div>
 
     <script type="text/javascript">
       var webstore = new Vue({	//#C
-        el: '#app'	//#D
-      });	//#C
+        el: '#app',
+        data: { // the 'data' option
+        // the key 'sitename' matches the value of 'v-text' earlier
+        sitename: "LessonCart"
+        }
+      });
     </script>
   </body>
 </html>
