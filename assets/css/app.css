@@ -94,3 +94,12 @@ width: 1.1em;
     width: 30%;
   }
 }
+.sold-out {
+  color: #d15a5a;
+}
+.available {
+  color: #2fc379;
+}
+.few-left {
+  color: #e9ba2e;
+}
