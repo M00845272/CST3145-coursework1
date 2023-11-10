@@ -4,8 +4,8 @@
 <head>
   <title>LessonCart</title>
   <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
   <meta charset="UTF-8">
@@ -30,32 +30,50 @@
         <div v-if="showProduct">
           <div v-for="product in sortedProducts">
             <div class="row">
-              <div class="col-md-5 col-md-offset-0">
-                <figure>
-                  <img class="product" v-bind:src="product.image">
-                </figure>
+              <div class="column">
+                <div class="col-md-6 col-md-offset-0 description">
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Subject: </p>
+                    <p class="tab" v-text="product.subject"></p>
+                  </div>
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Location: </p>
+                    <p class="tab" v-text="product.location"></p>
+                  </div>
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Price: </p>
+                    <p class="tab price"> {{product.price | formatPrice}}</p>
+                  </div>
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Rating: </p>
+                    <div class="tab">
+                      <span v-bind:class="{'rating-active' :checkRating(n, product)}" v-for="n in 5">☆
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-6 col-md-offset-0 description">
-                <h1 v-text="product.title"></h1>
-                <p v-html="product.description"></p>
-                <p class="price">
-                  {{product.price | formatPrice}}
-                </p>
-                <button class=" btn btn-primary btn-lg" v-on:click="addToCart(product)" v-if="canAddToCart(product)">Add to cart</button>
-                <button disabled="true" class=" btn btn-primary btn-lg" v-else>Add to cart</button>
-                <span class="inventory-message" v-if="product.availableInventory - cartCount(product.id) === 0">All Out!
-                </span>
-                <span class="inventory-message" v-else-if="product.availableInventory - cartCount(product.id) < 5">
-                  Only {{product.availableInventory - cartCount(product.id)}} left!
-                </span>
-                <span class="inventory-message" v-else>Buy Now!
-                </span>
-                <div class="rating">
-                  <span v-bind:class="{'rating-active' :checkRating(n, product)}" v-for="n in 5">☆
-                  </span>
+              <div class="column">
+                <div class="col-md-5 col-md-offset-0">
+                  <figure>
+                    <img class="product" v-bind:src="product.image">
+                  </figure>
                 </div>
               </div>
               <!-- end of col-md-6-->
+            </div>
+            <div class=" add-cart-button-container">
+              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="addToCart(product)"
+                v-if="canAddToCart(product)">Add to cart</button>
+              <button disabled="true" class=" btn btn-primary btn-lg add-cart-button" v-else>Add to cart</button>
+              <span class="inventory-message" v-if="product.availableInventory - cartCount(product.id) === 0">All
+                Out!
+              </span>
+              <span class="inventory-message" v-else-if="product.availableInventory - cartCount(product.id) < 5">
+                Only {{product.availableInventory - cartCount(product.id)}} left!
+              </span>
+              <span class="inventory-message" v-else>Buy Now!
+              </span>
             </div>
             <!-- end of row-->
             <hr />
@@ -121,8 +139,8 @@
                   </div>
                   <div class="form-group">
                     <div class="col-md-6 boxes">
-                      <input type="checkbox" id="gift" value="true" v-bind:true-value="order.sendGift" v-bind:false-value="order.dontSendGift"
-                        v-model="order.gift">
+                      <input type="checkbox" id="gift" value="true" v-bind:true-value="order.sendGift"
+                        v-bind:false-value="order.dontSendGift" v-model="order.gift">
                       <label for="gift">Ship As Gift?</label>
                     </div>
                   </div>

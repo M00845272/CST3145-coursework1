@@ -66,9 +66,9 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
             console.log(productsArray);
             console.log(this.products);
             function compare(a, b) {
-              if (a.title.toLowerCase() < b.title.toLowerCase())
+              if (a.subject.toLowerCase() < b.subject.toLowerCase())
                 return -1;
-              if (a.title.toLowerCase() > b.title.toLowerCase())
+              if (a.subject.toLowerCase() > b.subject.toLowerCase())
                 return 1;
               return 0;
             }
@@ -88,9 +88,9 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
               priceArray.splice(index + 3, 0, ",");	//#F
               index += 4;	//#F
             }	//#F
-            return "$" + priceArray.reverse().join("");	//#G
+            return "£" + priceArray.reverse().join("");	//#G
           } else {
-            return "$" + (price / 100).toFixed(2);	//#H
+            return "£" + (price / 100).toFixed(2);	//#H
           }
         }
 
