@@ -66,13 +66,13 @@
               <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="addToCart(product)"
                 v-if="canAddToCart(product)">Add to cart</button>
               <button disabled="true" class=" btn btn-primary btn-lg add-cart-button" v-else>Add to cart</button>
-              <span class="inventory-message sold-out" v-if="product.availableInventory - cartCount(product.id) === 0">All
+              <span class="inventory-message sold-out" v-if="product.availableInventory - cartCount(product.id) === 0">Sold
                 Out!
               </span>
               <span class="inventory-message few-left" v-else-if="product.availableInventory - cartCount(product.id) < 5">
-                Only {{product.availableInventory - cartCount(product.id)}} left!
+                Hurry!! Only {{product.availableInventory - cartCount(product.id)}} left
               </span>
-              <span class="inventory-message available" v-else>Buy Now!
+              <span class="inventory-message available" v-else>{{product.availableInventory - cartCount(product.id)}} lessons available 
               </span>
             </div>
             <!-- end of row-->
