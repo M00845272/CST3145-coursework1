@@ -46,6 +46,9 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
           //return this.product.availableInventory > this.cartItemCount;
           return aProduct.availableInventory > this.cartCount(aProduct.id);
         },
+        canCheckout() {
+          return this.cart.length > 0;
+        },
         cartCount(id) {
           let count = 0;
           for (var i = 0; i < this.cart.length; i++) {
