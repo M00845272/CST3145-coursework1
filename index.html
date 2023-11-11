@@ -23,7 +23,8 @@
             <button type="button" class="btn btn-default btn-lg" v-if="canCheckout()" v-on:click="showCheckout">
               <span class="glyphicon glyphicon-shopping-cart">{{ cartItemCount}}</span> Checkout
             </button>
-            <button type="button" disabled="true" class="btn btn-default btn-lg" v-else="canCheckout()" v-on:click="showCheckout">
+            <button type="button" disabled="true" class="btn btn-default btn-lg" v-else="canCheckout()"
+              v-on:click="showCheckout">
               <span class="glyphicon glyphicon-shopping-cart">{{ cartItemCount}}</span> Checkout
             </button>
           </div>
@@ -31,6 +32,9 @@
       </header>
       <main>
         <div v-if="showProduct">
+          <div class="lesson-list-title">
+            Lessons Catalog
+          </div>
           <div v-for="product in sortedProducts">
             <div class="row">
               <div class="column">
@@ -69,13 +73,16 @@
               <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="addToCart(product)"
                 v-if="canAddToCart(product)">Add to cart</button>
               <button disabled="true" class=" btn btn-primary btn-lg add-cart-button" v-else>Add to cart</button>
-              <span class="inventory-message sold-out" v-if="product.availableInventory - cartCount(product.id) === 0">Sold
+              <span class="inventory-message sold-out"
+                v-if="product.availableInventory - cartCount(product.id) === 0">Sold
                 Out!
               </span>
-              <span class="inventory-message few-left" v-else-if="product.availableInventory - cartCount(product.id) < 5">
+              <span class="inventory-message few-left"
+                v-else-if="product.availableInventory - cartCount(product.id) < 5">
                 Hurry!! Only {{product.availableInventory - cartCount(product.id)}} left
               </span>
-              <span class="inventory-message available" v-else>{{product.availableInventory - cartCount(product.id)}} lessons available 
+              <span class="inventory-message available" v-else>{{product.availableInventory - cartCount(product.id)}}
+                lessons available
               </span>
             </div>
             <!-- end of row-->
@@ -85,46 +92,49 @@
         </div>
         <!-- end of showProduct-->
         <div v-else>
-            <div v-for="product in cartProducts">
-              <div class="row">
-                <div class="column">
-                  <div class="col-md-6 col-md-offset-0 description">
-                    <div class="lesson-detail-pair">
-                      <p class="lesson-label">Subject: </p>
-                      <p class="tab" v-text="product.subject"></p>
-                    </div>
-                    <div class="lesson-detail-pair">
-                      <p class="lesson-label">Location: </p>
-                      <p class="tab" v-text="product.location"></p>
-                    </div>
-                    <div class="lesson-detail-pair">
-                      <p class="lesson-label">Price: </p>
-                      <p class="tab price"> {{product.price | formatPrice}}</p>
-                    </div>
+          <div class="lesson-list-title">
+            Cart Details
+          </div>
+          <div v-for="product in cartProducts">
+            <div class="row">
+              <div class="column">
+                <div class="col-md-6 col-md-offset-0 description">
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Subject: </p>
+                    <p class="tab" v-text="product.subject"></p>
+                  </div>
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Location: </p>
+                    <p class="tab" v-text="product.location"></p>
+                  </div>
+                  <div class="lesson-detail-pair">
+                    <p class="lesson-label">Price: </p>
+                    <p class="tab price"> {{product.price | formatPrice}}</p>
                   </div>
                 </div>
-                <div class="column">
-                  <div class="col-md-5 col-md-offset-0">
-                    <figure>
-                      <img class="product" v-bind:src="product.image">
-                    </figure>
-                  </div>
+              </div>
+              <div class="column">
+                <div class="col-md-5 col-md-offset-0">
+                  <figure>
+                    <img class="product" v-bind:src="product.image">
+                  </figure>
                 </div>
-                <!-- end of col-md-6-->
               </div>
-              <div class=" add-cart-button-container">
-                <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="removeFromCart(product)"
-                  >Remove from cart</button>
-              </div>
-              <!-- end of row-->
-              <hr />
+              <!-- end of col-md-6-->
             </div>
-            <!-- end of v-for-->
+            <div class=" add-cart-button-container">
+              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="removeFromCart(product)">Remove from
+                cart</button>
+            </div>
+            <!-- end of row-->
+            <hr />
+          </div>
+          <!-- end of v-for-->
           <!-- end of cart-->
-          <div class="row">
+          <div>
             <div class="col-md-10 col-md-offset-1">
               <div class="panel panel-info">
-                <div class="panel-heading">Lesson Checkout</div>
+                <div class="panel-heading">Checkout</div>
                 <div class="panel-body">
                   <div class="form-group">
                     <div class="col-md-12">
@@ -133,34 +143,28 @@
                       </h4>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-6">
+                  <div class="form-group lesson-detail-pair">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>First Name:</strong>
                       <input v-model.trim="order.firstName" class="form-control" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>Last Name:</strong>
                       <input v-model.trim="order.lastName" class="form-control" />
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-12">
+                  <div class="form-group lesson-detail-pair">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>Address:</strong>
-                    </div>
-                    <div class="col-md-12">
                       <input v-model.trim="order.address" class="form-control" />
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-md-12">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>City:</strong>
-                    </div>
-                    <div class="col-md-12">
                       <input v-model.trim="order.city" class="form-control" />
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-2">
+                  <div class="form-group lesson-detail-pair">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>State:</strong>
                       <select v-model="order.state" class="form-control">
                         <option disabled value="">State</option>
@@ -169,25 +173,25 @@
                         </option>
                       </select>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
+                    <div class="col-md-6 checkout-form-column">
                       <strong>Zip / Postal Code:</strong>
                       <input v-model.number="order.zip" class="form-control" type="number" />
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-6 boxes">
+                  <div class="form-group lesson-detail-pair">
+                    <div class="col-md-6 boxes checkout-form-column">
                       <input type="checkbox" id="gift" value="true" v-bind:true-value="order.sendGift"
                         v-bind:false-value="order.dontSendGift" v-model="order.gift">
                       <label for="gift">Ship As Gift?</label>
                     </div>
                   </div>
                   <!-- end of form-group -->
-                  <div class="form-group">
-                    <div class="col-md-6 boxes">
+                  <div class="form-group lesson-detail-pair">
+                    <div class="col-md-6 boxes checkout-form-column">
                       <input type="radio" id="home" v-bind:value="order.home" v-model="order.method">
                       <label for="home">Home</label>
+                    </div>
+                    <div class="col-md-6 boxes checkout-form-column">
                       <input type="radio" id="business" v-bind:value="order.business" v-model="order.method">
                       <label for="business">Business</label>
                     </div>
@@ -201,16 +205,16 @@
                   </div>
                   <!-- end of form-group-->
                   <div class="col-md-12 verify">
-                    <pre>
-                        First Name: {{order.firstName}}
-                        Last Name: {{order.lastName}}
-                        Address: {{order.address}}
-                        City: {{order.city}}
-                        Zip: {{order.zip}}
-                        State: {{order.state}}
-                        Method: {{order.method}}
-                        Gift: {{order.gift}}
-                      </pre>
+                    <div>
+                      <strong>First Name:</strong> {{order.firstName}}<br />
+                      <strong>Last Name:</strong> {{order.lastName}}<br />
+                      <strong>Address:</strong> {{order.address}}<br />
+                      <strong>City:</strong> {{order.city}}<br />
+                      <strong> Zip:</strong> {{order.zip}}<br />
+                      <strong>State:</strong> {{order.state}}<br />
+                      <strong>Method:</strong> {{order.method}}<br />
+                      <strong>Gift:</strong> {{order.gift}}
+                    </div>
                   </div>
                   <!-- end of col-md-12 verify-->
                 </div>
