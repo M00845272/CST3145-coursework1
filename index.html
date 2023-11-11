@@ -35,6 +35,9 @@
           <div class="lesson-list-title">
             Lesson Catalog
           </div>
+          <div class="search-wrapper">
+            <input class="search-bar" type="text" v-model="search" placeholder="Type subject or location to search" />
+          </div>  
           <div class="lesson-container" v-for="product in sortedProducts">
             <div class="row">
               <div class="column">

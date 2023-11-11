@@ -5,6 +5,7 @@ var webstore = new Vue({
     sitename: "LessonCart",
     showProduct: true,
     a: false,
+    search: "",
     order: {
       firstName: '',
       lastName: '',
@@ -56,7 +57,7 @@ var webstore = new Vue({
     },
     submitForm() {
       alert('Order Placed Successfully');
-      this.cart =[];
+      this.cart = [];
       this.showProduct = true;
       this.order = this.getDefaultOrderDetails();
     },
@@ -65,35 +66,35 @@ var webstore = new Vue({
     },
     canPlaceOrder() {
       const lettersOnlyRegex = /^[a-z]+$/i;
-      const emailRegex =/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       const phoneRgex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
       var isValid = true;
 
-      if (this.order.firstName == '' || !lettersOnlyRegex.test(this.order.firstName)){
+      if (this.order.firstName == '' || !lettersOnlyRegex.test(this.order.firstName)) {
         this.order.validation.firstNameInvalid = true;
         isValid = false;
-      }else{
+      } else {
         this.order.validation.firstNameInvalid = false;
       }
-      if (this.order.lastName == '' || !lettersOnlyRegex.test(this.order.lastName)){
+      if (this.order.lastName == '' || !lettersOnlyRegex.test(this.order.lastName)) {
         this.order.validation.lastNameInvalid = true;
         isValid = false;
-      }else{
+      } else {
         this.order.validation.lastNameInvalid = false;
       }
-      if (this.order.email == '' || !emailRegex.test(this.order.email)){
+      if (this.order.email == '' || !emailRegex.test(this.order.email)) {
         this.order.validation.emailInvalid = true;
         isValid = false;
-      }else{
+      } else {
         this.order.validation.emailInvalid = false;
       }
-      if (this.order.phone == '' || !phoneRgex.test(this.order.phone)){
+      if (this.order.phone == '' || !phoneRgex.test(this.order.phone)) {
         this.order.validation.phoneInvalid = true;
         isValid = false;
-      }else{
+      } else {
         this.order.validation.phoneInvalid = false;
       }
-      
+
       return isValid;
     },
     canCheckout() {
@@ -124,8 +125,7 @@ var webstore = new Vue({
     sortedProducts() {
       if (this.products.length > 0) {
         let productsArray = this.products.slice(0);
-        console.log(productsArray);
-        console.log(this.products);
+
         function compare(a, b) {
           if (a.subject.toLowerCase() < b.subject.toLowerCase())
             return -1;
@@ -133,6 +133,12 @@ var webstore = new Vue({
             return 1;
           return 0;
         }
+
+        productsArray = productsArray.filter(p => {
+          return p.subject.toLowerCase().indexOf(this.search.toLowerCase()) != -1 ||
+            p.location.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
+        });
+
         return productsArray.sort(compare);
       }
     },
