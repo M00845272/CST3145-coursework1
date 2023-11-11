@@ -6,6 +6,19 @@ body {
   max-width: 970px !important;
 }
 
+.container {
+  background-color: #100a04;
+  color: #d1cec2;
+}
+.lesson-container {
+  background-color: ghostwhite;
+    color: #1e0606;
+    box-shadow: 0px 5px 10px 0px rgb(211 209 209 / 70%);
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
 .cart {
   padding: 20px 50px;
 }
@@ -33,7 +46,7 @@ body {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .submit {
@@ -138,16 +151,41 @@ body {
   justify-content: center;
   font-size: large;
   font-weight: bold;
-  background-color: #b8c1b6;
-  border-color: #736e6e;
-  color: #233f13;
+  color: #eba80b;
+  font-size: xx-large;
 }
 
 .checkout-form-column {
   width: 50%;
 }
+
 .input-error {
   font-size: x-small;
   float: right;
   color: #5f1010;
+}
+
+.app-header {
+  background-color: #343a40 !important;
+  color: #eba80b;
+  --mdb-navbar-box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --mdb-navbar-padding-top: 0.5625rem;
+  --mdb-navbar-brand-img-margin-right: 0.25rem;
+  box-shadow: var(--mdb-navbar-box-shadow);
+  padding-top: var(--mdb-navbar-padding-top);
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #eba80b !important;
+  border-color: #ac7b07 !important;
+  color: #100a04;
+}
+.panel-info>.panel-heading {
+  color: #1c1b1a;
+  background-color: #dfd7c0;
+  border-color: #bbb492;
+}
+.panel-info {
+  border-color: #534502;
+  color: #271806;
 }

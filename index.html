@@ -15,7 +15,7 @@
   <div class="container">
     <div id="app">
       <header>
-        <div class="navbar navbar-default">
+        <div class="navbar navbar-expand-lg bg-dark navbar-dark app-header">
           <div class="navbar-header">
             <h1>{{ sitename }}</h1>
           </div>
@@ -33,9 +33,9 @@
       <main>
         <div v-if="showProduct">
           <div class="lesson-list-title">
-            Lessons Catalog
+            Lesson Catalog
           </div>
-          <div v-for="product in sortedProducts">
+          <div class="lesson-container" v-for="product in sortedProducts">
             <div class="row">
               <div class="column">
                 <div class="col-md-6 col-md-offset-0 description">
@@ -86,7 +86,6 @@
               </span>
             </div>
             <!-- end of row-->
-            <hr />
           </div>
           <!-- end of v-for-->
         </div>
@@ -95,7 +94,7 @@
           <div class="lesson-list-title">
             Cart Details
           </div>
-          <div v-for="product in cartProducts">
+          <div class="lesson-container"  v-for="product in cartProducts">
             <div class="row">
               <div class="column">
                 <div class="col-md-6 col-md-offset-0 description">
@@ -127,7 +126,6 @@
                 cart</button>
             </div>
             <!-- end of row-->
-            <hr />
           </div>
           <!-- end of v-for-->
           <!-- end of cart-->
