@@ -36,6 +36,16 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
         addToCart(aProduct) {
           this.cart.push(aProduct.id);
         },
+        removeFromCart(aProduct) {
+          var index = this.cart.indexOf(aProduct.id);
+          if (index > -1) {
+            this.cart.splice(index, 1);
+          }
+          if(this.cart.length < 1) {
+            this.showProduct = true;
+          }
+          return;
+        },
         showCheckout() {
           this.showProduct = this.showProduct ? false : true;
         },
@@ -57,6 +67,14 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
             }
           }
           return count;
+        },
+        findLesson(id) {
+          for (var i = 0; i < this.products.length; i++) {
+            if (this.products[i].id === id) {
+              return this.products[i];
+            }
+          }
+          return;
         }
       },
       computed: {
@@ -76,6 +94,23 @@ var APP_LOG_LIFECYCLE_EVENTS = true;
               return 0;
             }
             return productsArray.sort(compare);
+          }
+        },
+        cartProducts() {
+          if (this.cart.length > 0) {
+            let cartArray = [];
+            for (var i = 0; i < this.cart.length; i++) {
+              cartArray.push(this.findLesson(this.cart[i]))
+            }
+
+            function compare(a, b) {
+              if (a.subject.toLowerCase() < b.subject.toLowerCase())
+                return -1;
+              if (a.subject.toLowerCase() > b.subject.toLowerCase())
+                return 1;
+              return 0;
+            }
+            return cartArray.sort(compare);
           }
 
         }

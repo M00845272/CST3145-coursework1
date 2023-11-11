@@ -85,6 +85,42 @@
         </div>
         <!-- end of showProduct-->
         <div v-else>
+            <div v-for="product in cartProducts">
+              <div class="row">
+                <div class="column">
+                  <div class="col-md-6 col-md-offset-0 description">
+                    <div class="lesson-detail-pair">
+                      <p class="lesson-label">Subject: </p>
+                      <p class="tab" v-text="product.subject"></p>
+                    </div>
+                    <div class="lesson-detail-pair">
+                      <p class="lesson-label">Location: </p>
+                      <p class="tab" v-text="product.location"></p>
+                    </div>
+                    <div class="lesson-detail-pair">
+                      <p class="lesson-label">Price: </p>
+                      <p class="tab price"> {{product.price | formatPrice}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="col-md-5 col-md-offset-0">
+                    <figure>
+                      <img class="product" v-bind:src="product.image">
+                    </figure>
+                  </div>
+                </div>
+                <!-- end of col-md-6-->
+              </div>
+              <div class=" add-cart-button-container">
+                <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="removeFromCart(product)"
+                  >Remove from cart</button>
+              </div>
+              <!-- end of row-->
+              <hr />
+            </div>
+            <!-- end of v-for-->
+          <!-- end of cart-->
           <div class="row">
             <div class="col-md-10 col-md-offset-1">
               <div class="panel panel-info">
