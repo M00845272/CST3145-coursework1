@@ -14,6 +14,11 @@ body {
   margin-top: 20px;
 }
 
+.verify-container {
+  display: flex;
+  align-items: center;
+}
+
 .verify {
   margin-top: 20px;
   width: 70%;
@@ -140,4 +145,9 @@ body {
 
 .checkout-form-column {
   width: 50%;
+}
+.input-error {
+  font-size: x-small;
+  float: right;
+  color: #5f1010;
 }

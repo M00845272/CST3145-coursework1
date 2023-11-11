@@ -147,76 +147,47 @@
                     <div class="col-md-6 checkout-form-column">
                       <strong>First Name:</strong>
                       <input v-model.trim="order.firstName" class="form-control" />
+                      <p v-if="order.validation.firstNameInvalid == true" class="input-error">Enter Valid First Name</p>
                     </div>
                     <div class="col-md-6 checkout-form-column">
                       <strong>Last Name:</strong>
                       <input v-model.trim="order.lastName" class="form-control" />
+                      <p v-if="order.validation.lastNameInvalid == true" class="input-error">Enter Valid Last Name</p>
                     </div>
                   </div>
                   <div class="form-group lesson-detail-pair">
                     <div class="col-md-6 checkout-form-column">
-                      <strong>Address:</strong>
-                      <input v-model.trim="order.address" class="form-control" />
+                      <strong>Email:</strong>
+                      <input v-model.trim="order.email" class="form-control" />
+                      <p v-if="order.validation.emailInvalid == true" class="input-error">Enter Valid Email</p>
                     </div>
                     <div class="col-md-6 checkout-form-column">
-                      <strong>City:</strong>
-                      <input v-model.trim="order.city" class="form-control" />
-                    </div>
-                  </div>
-                  <div class="form-group lesson-detail-pair">
-                    <div class="col-md-6 checkout-form-column">
-                      <strong>State:</strong>
-                      <select v-model="order.state" class="form-control">
-                        <option disabled value="">State</option>
-                        <option v-for="(state, key) in states" v-bind:value="state">
-                          {{key}}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col-md-6 checkout-form-column">
-                      <strong>Zip / Postal Code:</strong>
-                      <input v-model.number="order.zip" class="form-control" type="number" />
-                    </div>
-                  </div>
-                  <div class="form-group lesson-detail-pair">
-                    <div class="col-md-6 boxes checkout-form-column">
-                      <input type="checkbox" id="gift" value="true" v-bind:true-value="order.sendGift"
-                        v-bind:false-value="order.dontSendGift" v-model="order.gift">
-                      <label for="gift">Ship As Gift?</label>
-                    </div>
-                  </div>
-                  <!-- end of form-group -->
-                  <div class="form-group lesson-detail-pair">
-                    <div class="col-md-6 boxes checkout-form-column">
-                      <input type="radio" id="home" v-bind:value="order.home" v-model="order.method">
-                      <label for="home">Home</label>
-                    </div>
-                    <div class="col-md-6 boxes checkout-form-column">
-                      <input type="radio" id="business" v-bind:value="order.business" v-model="order.method">
-                      <label for="business">Business</label>
+                      <strong>Phone:</strong>
+                      <input v-model.trim="order.phone" type="number" class="form-control" />
+                      <p v-if="order.validation.phoneInvalid == true" class="input-error">Enter Valid Phone</p>
                     </div>
                   </div>
                   <!-- end of form-group-->
-                  <div class="form-group">
-                    <div class="col-md-6">
-                      <button type="submit" class="btn btn-primary submit" v-on:click="submitForm">Place Order</button>
+                  <div class="verify-container">
+                    <div class="col-md-12 verify">
+                      <div>
+                        <strong>First Name:</strong> {{order.firstName}}<br />
+                        <strong>Last Name:</strong> {{order.lastName}}<br />
+                        <strong>Email:</strong> {{order.email}}<br />
+                        <strong>Phone:</strong> {{order.phone}}<br />                       
+                      </div>
                     </div>
-                    <!-- end of col-md-6-->
-                  </div>
-                  <!-- end of form-group-->
-                  <div class="col-md-12 verify">
-                    <div>
-                      <strong>First Name:</strong> {{order.firstName}}<br />
-                      <strong>Last Name:</strong> {{order.lastName}}<br />
-                      <strong>Address:</strong> {{order.address}}<br />
-                      <strong>City:</strong> {{order.city}}<br />
-                      <strong> Zip:</strong> {{order.zip}}<br />
-                      <strong>State:</strong> {{order.state}}<br />
-                      <strong>Method:</strong> {{order.method}}<br />
-                      <strong>Gift:</strong> {{order.gift}}
+                    <!-- end of col-md-12 verify-->
+                    <div class="form-group" style="width: 30%;">
+                      <div class="col-md-6">
+                        <button type="submit" style="width: 100%;" class="btn btn-primary submit" v-if="canPlaceOrder()" v-on:click="submitForm">Place
+                          Order</button>
+                        <button type="submit" disabled="true" style="width: 100%;" class="btn btn-primary submit" v-else v-on:click="submitForm">Place
+                          Order</button>
+                      </div>
+                      <!-- end of col-md-6-->
                     </div>
                   </div>
-                  <!-- end of col-md-12 verify-->
                 </div>
                 <!--end of panel-body-->
               </div>
