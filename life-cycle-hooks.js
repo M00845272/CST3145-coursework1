@@ -214,63 +214,28 @@ var webstore = new Vue({
     }
   },
   filters: {
-    formatPrice(price) {	//#B
-      if (!parseInt(price)) { return ""; }	//#C
-      if (price > 99999) {	//#D
-        var priceString = (price / 100).toFixed(2);	//#E
-        var priceArray = priceString.split("").reverse();	//#F
-        var index = 3;	//#F
-        while (priceArray.length > index + 3) {	//#F
-          priceArray.splice(index + 3, 0, ",");	//#F
-          index += 4;	//#F
-        }	//#F
-        return "£" + priceArray.reverse().join("");	//#G
+    formatPrice(price) {
+      if (!parseInt(price)) { return ""; }
+      if (price > 99999) {
+        var priceString = (price / 100).toFixed(2);
+        var priceArray = priceString.split("").reverse();	
+        var index = 3;
+        while (priceArray.length > index + 3) {
+          priceArray.splice(index + 3, 0, ",");
+          index += 4;
+        }
+        return "£" + priceArray.reverse().join("");	
       } else {
         return "£" + (price / 100).toFixed(2);	//#H
       }
     }
 
   },
-  beforeCreate: function () {	//#B
-    if (APP_LOG_LIFECYCLE_EVENTS) {	//#B
-      console.log("beforeCreate");	//#B
-    }	//#B
-  },	//#B
-  created: function () {	//#C
+  created: function () {
     axios.get('./lessons.json')
       .then((response) => {
         this.lessons = response.data.lessons;
         console.log(this.lessons);
       });
-  },	//#C
-  beforeMount: function () {	//#D
-    if (APP_LOG_LIFECYCLE_EVENTS) {	//#D
-      console.log(" beforeMount");	//#D
-    }	//#D
-  },	//#D
-  mounted: function () {	//#E
-    if (APP_LOG_LIFECYCLE_EVENTS) {	//#E
-      console.log(" mounted"); 	//#E
-    } 	//#E
-  },	//#E
-  beforeUpdate: function () { 	//#F
-    if (APP_LOG_LIFECYCLE_EVENTS) { 	//#F
-      console.log("beforeUpdate"); 	//#F
-    } 	//#F
-  },	//#F
-  updated: function () { 	//#G
-    if (APP_LOG_LIFECYCLE_EVENTS) { 	//#G
-      console.log("updated"); 	//#G
-    } 	//#G
-  },	//#G
-  beforeDestroyed: function () { 	//#H
-    if (APP_LOG_LIFECYCLE_EVENTS) { 	//#H
-      console.log("beforeDestroyed "); 	//#H
-    } 	//#H
-  },	//#H
-  destroyed: function () { 	//#I
-    if (APP_LOG_LIFECYCLE_EVENTS) { 	//#I
-      console.log("destroyed"); 	//#I
-    } 	//#I
-  }	//#I
+  }
 });
