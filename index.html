@@ -31,33 +31,46 @@
         </div>
       </header>
       <main>
-        <div v-if="showProduct">
+        <div v-if="showLesson">
           <div class="lesson-list-title">
             Lesson Catalog
           </div>
           <div class="search-wrapper">
-            <input class="search-bar" type="text" v-model="search" placeholder="Type here to search lesson" />
-          </div>  
-          <div class="lesson-container" v-for="product in sortedProducts">
+            <input class="search-bar"  autocomplete="off"  type="search" v-model="search" placeholder="Type here to search lesson" />
+          </div>
+          <div class="sort-wrapper">     
+            <span class="sort-label">Sort: </span>
+            <select v-model="sortOption" class="form-control sort-options">
+              <option v-for="(option, key) in sortOptions" v-bind:value="key">
+                {{option}}
+              </option>
+            </select>
+            <select v-model="sortOrder" class="form-control sort-order">
+              <option v-for="(option, key) in sortOrderOptions" v-bind:value="key">
+                {{option}}
+              </option>
+            </select>
+          </div>
+          <div class="lesson-container" v-for="lesson in sortedLessons">
             <div class="row">
               <div class="column">
                 <div class="col-md-6 col-md-offset-0 description">
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Subject: </p>
-                    <p class="tab" v-text="product.subject"></p>
+                    <p class="tab" v-text="lesson.subject"></p>
                   </div>
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Location: </p>
-                    <p class="tab" v-text="product.location"></p>
+                    <p class="tab" v-text="lesson.location"></p>
                   </div>
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Price: </p>
-                    <p class="tab price"> {{product.price | formatPrice}}</p>
+                    <p class="tab price"> {{lesson.price | formatPrice}}</p>
                   </div>
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Rating: </p>
                     <div class="tab">
-                      <span v-bind:class="{'rating-active' :checkRating(n, product)}" v-for="n in 5">☆
+                      <span v-bind:class="{'rating-active' :checkRating(n, lesson)}" v-for="n in 5">☆
                       </span>
                     </div>
                   </div>
@@ -66,25 +79,25 @@
               <div class="column">
                 <div class="col-md-5 col-md-offset-0">
                   <figure>
-                    <img class="product" v-bind:src="product.image">
+                    <img class="lesson" v-bind:src="lesson.image">
                   </figure>
                 </div>
               </div>
               <!-- end of col-md-6-->
             </div>
             <div class=" add-cart-button-container">
-              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="addToCart(product)"
-                v-if="canAddToCart(product)">Add to cart</button>
+              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="addToCart(lesson)"
+                v-if="canAddToCart(lesson)">Add to cart</button>
               <button disabled="true" class=" btn btn-primary btn-lg add-cart-button" v-else>Add to cart</button>
               <span class="inventory-message sold-out"
-                v-if="product.availableInventory - cartCount(product.id) === 0">Sold
+                v-if="lesson.availableInventory - cartCount(lesson.id) === 0">Sold
                 Out!
               </span>
               <span class="inventory-message few-left"
-                v-else-if="product.availableInventory - cartCount(product.id) < 5">
-                Hurry!! Only {{product.availableInventory - cartCount(product.id)}} left
+                v-else-if="lesson.availableInventory - cartCount(lesson.id) < 5">
+                Hurry!! Only {{lesson.availableInventory - cartCount(lesson.id)}} left
               </span>
-              <span class="inventory-message available" v-else>{{product.availableInventory - cartCount(product.id)}}
+              <span class="inventory-message available" v-else>{{lesson.availableInventory - cartCount(lesson.id)}}
                 lessons available
               </span>
             </div>
@@ -92,40 +105,40 @@
           </div>
           <!-- end of v-for-->
         </div>
-        <!-- end of showProduct-->
+        <!-- end of showlesson-->
         <div v-else>
           <div class="lesson-list-title">
             Cart Details
           </div>
-          <div class="lesson-container"  v-for="product in cartProducts">
+          <div class="lesson-container" v-for="lesson in cartLessons">
             <div class="row">
               <div class="column">
                 <div class="col-md-6 col-md-offset-0 description">
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Subject: </p>
-                    <p class="tab" v-text="product.subject"></p>
+                    <p class="tab" v-text="lesson.subject"></p>
                   </div>
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Location: </p>
-                    <p class="tab" v-text="product.location"></p>
+                    <p class="tab" v-text="lesson.location"></p>
                   </div>
                   <div class="lesson-detail-pair">
                     <p class="lesson-label">Price: </p>
-                    <p class="tab price"> {{product.price | formatPrice}}</p>
+                    <p class="tab price"> {{lesson.price | formatPrice}}</p>
                   </div>
                 </div>
               </div>
               <div class="column">
                 <div class="col-md-5 col-md-offset-0">
                   <figure>
-                    <img class="product" v-bind:src="product.image">
+                    <img class="lesson" v-bind:src="lesson.image">
                   </figure>
                 </div>
               </div>
               <!-- end of col-md-6-->
             </div>
             <div class=" add-cart-button-container">
-              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="removeFromCart(product)">Remove from
+              <button class=" btn btn-primary btn-lg add-cart-button" v-on:click="removeFromCart(lesson)">Remove from
                 cart</button>
             </div>
             <!-- end of row-->
@@ -175,15 +188,17 @@
                         <strong>First Name:</strong> {{order.firstName}}<br />
                         <strong>Last Name:</strong> {{order.lastName}}<br />
                         <strong>Email:</strong> {{order.email}}<br />
-                        <strong>Phone:</strong> {{order.phone}}<br />                       
+                        <strong>Phone:</strong> {{order.phone}}<br />
                       </div>
                     </div>
                     <!-- end of col-md-12 verify-->
                     <div class="form-group" style="width: 30%;">
                       <div class="col-md-6">
-                        <button type="submit" style="width: 100%;" class="btn btn-primary submit" v-if="canPlaceOrder()" v-on:click="submitForm">Place
+                        <button type="submit" style="width: 100%;" class="btn btn-primary submit" v-if="canPlaceOrder()"
+                          v-on:click="submitForm">Place
                           Order</button>
-                        <button type="submit" disabled="true" style="width: 100%;" class="btn btn-primary submit" v-else v-on:click="submitForm">Place
+                        <button type="submit" disabled="true" style="width: 100%;" class="btn btn-primary submit" v-else
+                          v-on:click="submitForm">Place
                           Order</button>
                       </div>
                       <!-- end of col-md-6-->
@@ -193,8 +208,6 @@
                 <!--end of panel-body-->
               </div>
               <!--end of panel panel-info-->
-
-
             </div>
             <!--end of col-md-10 col-md-offset-1-->
           </div>
@@ -204,7 +217,6 @@
     </div>
     <!-- end of app-->
   </div>
-
   <script src="life-cycle-hooks.js"></script>
 </body>
 

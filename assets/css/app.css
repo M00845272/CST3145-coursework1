@@ -72,7 +72,7 @@ body {
 }
 
 
-.product {
+.lesson {
   margin-top: 30px;
   margin-left: 20px;
   max-height: 300px;
@@ -194,6 +194,7 @@ body {
   border-color: #534502;
   color: #271806;
 }
+
 .search-wrapper {
   display: flex;
   justify-content: center;
@@ -203,9 +204,38 @@ body {
   margin: 10px;
   border-radius: 10px;
 }
+
 .search-bar {
   width: 100%;
   border-radius: 15px;
   background-color: whitesmoke;
   padding: 5px;
+}
+
+.sort-wrapper {
+  display: flex;
+  align-content: end;
+  justify-content: end;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.sort-label {
+  float: right !important;
+}
+
+.sort-options {
+  width: 15%;
+  color: #100a04;
+  border-radius: 25px;
+  float: right !important;
+  margin-left: 5px;
+}
+
+.sort-order {
+  width: 10%;
+  color: #100a04;
+  border-radius: 25px;
+  float: right !important;
+  margin-left: 5px;
 }

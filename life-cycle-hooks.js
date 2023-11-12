@@ -3,9 +3,22 @@ var webstore = new Vue({
   el: '#app',
   data: {
     sitename: "LessonCart",
-    showProduct: true,
+    showLesson: true,
     a: false,
     search: "",
+    sortOption: "SUBJECT",
+    sortOrder: "ASC",
+    sortOptions:{
+      SUBJECT: 'Subject',
+      AVAILABILITY: 'Availability',
+      LOCATION: 'Location',
+      PRICE: 'Price',
+      RATING: 'Rating'
+    },
+    sortOrderOptions:{
+      ASC: 'Asc',
+      DES: 'Des'
+    },
     order: {
       firstName: '',
       lastName: '',
@@ -18,7 +31,7 @@ var webstore = new Vue({
         phoneInvalid: false
       }
     },
-    products: {},
+    lessons: {},
     cart: []
   },
   methods: {
@@ -36,33 +49,33 @@ var webstore = new Vue({
         }
       };
     },
-    checkRating(n, myProduct) {
-      return myProduct.rating - n >= 0;
+    checkRating(n, myLesson) {
+      return myLesson.rating - n >= 0;
     },
-    addToCart(aProduct) {
-      this.cart.push(aProduct.id);
+    addToCart(aLesson) {
+      this.cart.push(aLesson.id);
     },
-    removeFromCart(aProduct) {
-      var index = this.cart.indexOf(aProduct.id);
+    removeFromCart(aLesson) {
+      var index = this.cart.indexOf(aLesson.id);
       if (index > -1) {
         this.cart.splice(index, 1);
       }
       if (this.cart.length < 1) {
-        this.showProduct = true;
+        this.showLesson = true;
       }
       return;
     },
     showCheckout() {
-      this.showProduct = this.showProduct ? false : true;
+      this.showLesson = this.showLesson ? false : true;
     },
     submitForm() {
       alert('Order Placed Successfully');
       this.cart = [];
-      this.showProduct = true;
+      this.showLesson = true;
       this.order = this.getDefaultOrderDetails();
     },
-    canAddToCart(aProduct) {
-      return aProduct.availableInventory > this.cartCount(aProduct.id);
+    canAddToCart(aLesson) {
+      return aLesson.availableInventory > this.cartCount(aLesson.id);
     },
     canPlaceOrder() {
       const lettersOnlyRegex = /^[a-z]+$/i;
@@ -110,9 +123,9 @@ var webstore = new Vue({
       return count;
     },
     findLesson(id) {
-      for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].id === id) {
-          return this.products[i];
+      for (var i = 0; i < this.lessons.length; i++) {
+        if (this.lessons[i].id === id) {
+          return this.lessons[i];
         }
       }
       return;
@@ -122,9 +135,9 @@ var webstore = new Vue({
     cartItemCount() {
       return this.cart.length || '';
     },
-    sortedProducts() {
-      if (this.products.length > 0) {
-        let productsArray = this.products.slice(0);
+    sortedLessons() {
+      if (this.lessons.length > 0) {
+        let lessonsArray = this.lessons.slice(0);
 
         function compare(a, b) {
           if (a.subject.toLowerCase() < b.subject.toLowerCase())
@@ -134,15 +147,15 @@ var webstore = new Vue({
           return 0;
         }
 
-        productsArray = productsArray.filter(p => {
+        lessonsArray = lessonsArray.filter(p => {
           return p.subject.toLowerCase().indexOf(this.search.toLowerCase()) != -1 ||
             p.location.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
         });
 
-        return productsArray.sort(compare);
+        return lessonsArray.sort(compare);
       }
     },
-    cartProducts() {
+    cartLessons() {
       if (this.cart.length > 0) {
         let cartArray = [];
         for (var i = 0; i < this.cart.length; i++) {
@@ -185,10 +198,10 @@ var webstore = new Vue({
     }	//#B
   },	//#B
   created: function () {	//#C
-    axios.get('./products.json')
+    axios.get('./lessons.json')
       .then((response) => {
-        this.products = response.data.products;
-        console.log(this.products);
+        this.lessons = response.data.lessons;
+        console.log(this.lessons);
       });
   },	//#C
   beforeMount: function () {	//#D
