@@ -49,6 +49,9 @@ body {
   border-radius: 4px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+.checkout-panel {
+  display: grid;
+}
 
 .submit {
   margin-top: 20px;
