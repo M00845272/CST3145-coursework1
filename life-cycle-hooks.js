@@ -8,14 +8,14 @@ var webstore = new Vue({
     search: "",
     sortOption: "SUBJECT",
     sortOrder: "ASC",
-    sortOptions:{
+    sortOptions: {
       SUBJECT: 'Subject',
       AVAILABILITY: 'Availability',
       LOCATION: 'Location',
       PRICE: 'Price',
       RATING: 'Rating'
     },
-    sortOrderOptions:{
+    sortOrderOptions: {
       ASC: 'Asc',
       DES: 'Des'
     },
@@ -34,7 +34,66 @@ var webstore = new Vue({
     lessons: {},
     cart: []
   },
+  watch: {
+    sortOption() {
+      this.getLessons();
+    },
+    sortOrder() {
+      this.getLessons();
+    },
+    search() {
+      this.getLessons();
+    }
+  },
   methods: {
+    getLessons() {
+      axios.get('./lessons.json')
+        .then((response) => {
+          var data = response.data.lessons;
+          if (data.length > 0) {
+            let lessonsArray = data.slice(0);
+            var sortField = this.sortOption;
+            var selectedSortOrder = this.sortOrder;
+
+            var cartCountMethod = this.cartCount;
+
+            function compare(a, b) {
+              var aValue = a.subject;
+              var bValue = b.subject;
+
+              if (sortField == "SUBJECT") {
+                aValue = a.subject.toLowerCase();
+                bValue = b.subject.toLowerCase();
+              } else if (sortField == "LOCATION") {
+                aValue = a.location.toLowerCase();
+                bValue = b.location.toLowerCase();
+              } else if (sortField == "PRICE") {
+                aValue = a.price;
+                bValue = b.price;
+              } else if (sortField == "RATING") {
+                aValue = a.rating;
+                bValue = b.rating;
+              } else if (sortField == "AVAILABILITY") {
+                aValue = a.availableInventory - cartCountMethod(a.id);
+                bValue = b.availableInventory - cartCountMethod(b.id);
+              }
+
+              if (aValue < bValue)
+                return selectedSortOrder == "DES" ? 1 : -1;
+              if (aValue > bValue)
+                return selectedSortOrder == "DES" ? -1 : 1;
+              return 0;
+            }
+
+            lessonsArray = lessonsArray.filter(p => {
+              return p.subject.toLowerCase().indexOf(this.search.toLowerCase()) != -1 ||
+                p.location.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
+            });
+
+            this.lessons = lessonsArray.sort(compare);
+          }
+        });
+    },
     getDefaultOrderDetails() {
       return {
         firstName: '',
@@ -134,26 +193,6 @@ var webstore = new Vue({
   computed: {
     cartItemCount() {
       return this.cart.length || '';
-    },
-    sortedLessons() {
-      if (this.lessons.length > 0) {
-        let lessonsArray = this.lessons.slice(0);
-
-        function compare(a, b) {
-          if (a.subject.toLowerCase() < b.subject.toLowerCase())
-            return -1;
-          if (a.subject.toLowerCase() > b.subject.toLowerCase())
-            return 1;
-          return 0;
-        }
-
-        lessonsArray = lessonsArray.filter(p => {
-          return p.subject.toLowerCase().indexOf(this.search.toLowerCase()) != -1 ||
-            p.location.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
-        });
-
-        return lessonsArray.sort(compare);
-      }
     },
     cartLessons() {
       if (this.cart.length > 0) {
